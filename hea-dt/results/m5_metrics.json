@@ -1,0 +1,13 @@
+{
+  "imbalance_accuracy_val": 0.9960193838698511,
+  "imbalance_f1_val": 0.9879138202837625,
+  "imbalance_false_alarm_rate_val": 0.0,
+  "imbalance_false_alarm_rate_val_confusable_only": 0.0,
+  "imbalance_accuracy_test": 0.9974039460020768,
+  "imbalance_f1_test": 0.9921507064364207,
+  "imbalance_false_alarm_rate_test": 0.0,
+  "imbalance_false_alarm_rate_test_confusable_only": 0.0,
+  "imbalance_n_train": 23112,
+  "prop_damage_mae_val": 0.003289174521878746,
+  "prop_damage_mae_test": 0.0034546622770816326
+}

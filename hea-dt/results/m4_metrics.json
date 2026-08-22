@@ -1,0 +1,16 @@
+{
+  "battery_rul_rmse_s_val": 258.02639905756234,
+  "battery_rul_mae_s_val": 48.9098093387689,
+  "battery_rul_rmse_s_val_aging_battery_only": 456.6161455534194,
+  "battery_rul_mae_s_val_aging_battery_only": 92.45169166171667,
+  "battery_rul_rmse_s_test": 517.1872923532877,
+  "battery_rul_mae_s_test": 119.55419439704956,
+  "battery_rul_rmse_s_test_aging_battery_only": 1074.9478274170554,
+  "battery_rul_mae_s_test_aging_battery_only": 420.6839032197062,
+  "battery_n_train": 23112,
+  "motor_weak_accuracy_val": 1.0,
+  "motor_weak_f1_val": 1.0,
+  "motor_weak_accuracy_test": 1.0,
+  "motor_weak_f1_test": 1.0,
+  "motor_n_train": 92448
+}

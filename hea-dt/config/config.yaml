@@ -1,0 +1,63 @@
+# HEA-DT configuration
+#
+# Every tunable value in the system should live here — nothing hardcoded
+# in module code. Modules read this through the typed Config object
+# returned by config/loader.py::load_config(), e.g. config.thresholds.min_altitude_m.
+
+sim:
+  backend: "ardupilot"                    # "ardupilot" or "px4"
+  connection: "udp:127.0.0.1:14550"       # MAVLink connection string (pymavlink/MAVSDK style)
+  mission_file: "data/missions/default.plan"
+
+loop:
+  fast_hz: 10.0    # M1/M2 + hard-abort checks (M7/M10/M13) — catch a threshold crossing quickly
+  slow_hz: 0.5     # M3-M9 prediction / fusion / decision / re-planning
+
+models:
+  m2_validation: "isolation_forest"    # "isolation_forest" | "rules_only"
+  m3_twin_state: "ekf"                 # "ekf" | "ukf" | "rls"
+  m4_electrical: "lightgbm"            # "lightgbm" | "xgboost"
+  m5_structural: "random_forest"       # "random_forest" | "xgboost"
+  m6_energy: "analytic"                # "analytic" | "lightgbm"
+  m7_uncertainty: "conformal"          # "conformal" | "ensemble"
+  use_neural: false                    # global override: allow tiny NN variants where a module supports one
+
+thresholds:
+  p_fail_abort: 0.6              # M9: abort if P(fail within horizon) exceeds this
+  structural_abort: 0.7          # M9: abort if structural_anomaly_score exceeds this
+  energy_reserve_pct: 20.0       # M6/M8: battery % that must always remain unspent
+  min_decision_confidence: 0.5   # M10: below this, escalate the decision to a human
+  min_altitude_m: 10.0           # M10: hard geofence floor, never descend below this autonomously
+  gps_imu_disagreement_ms: 5.0   # M2: GPS vs IMU-integrated speed disagreement (m/s) that flags a GPS sensor fault
+  p_fail_horizon_s: 300.0        # M4: "N" in P(powertrain fault within N) — 5 minutes
+  structural_imbalance_threshold: 0.5   # M5: anomaly-score threshold above which imbalance_flag is set
+
+autonomy:
+  mode: "human_in_the_loop"      # "human_in_the_loop" | "human_on_the_loop" | "full_autonomous"
+
+paths:
+  models_dir: "training/models"
+  data_dir: "data"
+  log_db: "data/decision_log.sqlite"
+
+m6:
+  air_density_sea_level_kg_m3: 1.225
+  disk_area_m2: 0.15             # combined rotor disk area, all rotors
+  drag_area_m2: 0.02              # effective frontal drag area (Cd*A)
+  induced_power_ref_speed_ms: 8.0  # speed at which translational lift meaningfully reduces induced power
+  battery_capacity_wh: 50.0         # nominal full-charge pack energy
+  battery_resistance_ref_ohm: 0.2    # internal resistance at which loss-efficiency derating bottoms out
+  assumed_remaining_mission_s: 600.0  # placeholder until a real mission plan is wired in (M8/M9)
+  v_search_max_ms: 20.0
+  alt_search_max_m: 150.0
+
+m7:
+  confidence_level: 0.9          # MAPIE's target conformal coverage probability
+  deviation_scale: 3.0           # decision_confidence *= exp(-twin.deviation / deviation_scale)
+
+mock:
+  seed: 42
+  battery_decline_v_per_s: 0.0   # >0 simulates a battery degrading faster than the nominal discharge model (drives M3's deviation up)
+  vibration_noise_std: 0.0       # >0 simulates a developing vibration/structural problem
+  glitch_prob: 0.0               # >0 simulates transient single-cycle sensor glitches (for M2 fault-isolation testing)
+  glitch_field: "gps"            # "gps" | "battery_voltage" | "imu" — which channel glitches when glitch_prob fires

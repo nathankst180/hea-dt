@@ -1,0 +1,8 @@
+{
+  "battery_rul_target_coverage": 0.9,
+  "battery_rul_empirical_coverage_test": 0.8686396677050883,
+  "battery_rul_mean_interval_width_s_test": 59.804922888284636,
+  "structural_imbalance_target_coverage": 0.9,
+  "structural_imbalance_empirical_coverage_test": 0.9470404984423676,
+  "structural_imbalance_mean_set_size_test": 0.9470404984423676
+}

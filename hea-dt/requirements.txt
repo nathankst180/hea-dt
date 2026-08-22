@@ -1,0 +1,31 @@
+# HEA-DT dependencies
+# Simulation / MAVLink
+pymavlink
+mavsdk
+
+# Machine learning
+scikit-learn
+lightgbm
+xgboost          # optional alternative to lightgbm for M4 (config.models.m4_electrical) — not used by the default config
+mapie
+filterpy
+joblib           # saving/loading trained M4/M5/M7 model artifacts (training/models/*.joblib)
+
+# Numerics / signal processing / data
+numpy
+scipy
+pandas
+pyarrow          # parquet read/write support for pandas (telemetry replay files)
+
+# Config
+pyyaml
+
+# Backend API (replay + live dashboard streaming)
+fastapi
+uvicorn[standard]
+python-multipart  # required by FastAPI for file uploads (POST /upload)
+websockets
+
+# Testing
+pytest
+httpx             # required by FastAPI's TestClient
